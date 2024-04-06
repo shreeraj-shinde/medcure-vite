@@ -1,5 +1,5 @@
-import  { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
+
 interface NavbarProps {
   title: string;
   input: boolean;
@@ -7,22 +7,10 @@ interface NavbarProps {
 }
 
 const Navbar = ({ title, input, username }: NavbarProps) => {
-  const [mobileActive, setMobileActive] = useState<boolean>(false);
-
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      if (window.innerWidth < 1100) setMobileActive(true);
-      else {
-        setMobileActive(false);
-      }
-    });
-  }, []);
-
-
   return (
     <section className="p-4 flex justify-between items-center h-14">
       <h1 className="text-2xl font-bold">{title}</h1>
-      {input && !mobileActive ? (
+      {input && window.innerWidth > 1100 ? (
         <div className="flex bg-white items-center p-1 rounded-lg h-8 shadow-lg">
           <BiSearch />
           <input
@@ -31,7 +19,9 @@ const Navbar = ({ title, input, username }: NavbarProps) => {
             className="border-0 outline-0 h-full "
           />
         </div>
-      ):""}
+      ) : (
+        ""
+      )}
       <div className="h-8 flex items-center gap-1">
         <span className="text-gray-500 text-sm font-bold">{username}</span>
         <img
