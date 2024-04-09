@@ -13,7 +13,7 @@ const Card = ({ title, color, level, Icon }: CardProps) => {
       <div className="flex gap-1 items-center justify-evenly">
         <div>
           <h3 className="text-black font-semibold text-lg">{title}</h3>
-          <h4 className="text-gray-700 font-semibold text-sm">{level}%</h4>
+          <h4 className="text-gray-700 font-semibold text-sm">{level}</h4>
           <p className="text-xs font-medium">normal</p>
         </div>
         <div

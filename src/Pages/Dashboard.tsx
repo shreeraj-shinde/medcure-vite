@@ -1,4 +1,4 @@
-import Layout from "../Layout/Layout"
+import Layout from "../Layout/Layout";
 import Card from "../Components/Card";
 import { FaHeadSideVirus, FaHeart } from "react-icons/fa";
 import { IoFootsteps } from "react-icons/io5";
@@ -30,7 +30,7 @@ const Dashboard = () => {
           Icon={IoFootsteps}
         />
         <Card
-          title="Blood Pressure"
+          title="Calories Burnt"
           level={60}
           color="rgb(255, 0, 96)"
           Icon={MdBloodtype}
@@ -53,7 +53,7 @@ const Dashboard = () => {
         </div>
       </section>
     </main>
-  )
-}
+  );
+};
 
-export default Layout(Dashboard)
+export default Layout(Dashboard);
