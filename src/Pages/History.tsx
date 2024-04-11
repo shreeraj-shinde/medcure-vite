@@ -1,5 +1,6 @@
 import Layout from "../Layout/Layout";
 import { FaPlus } from "react-icons/fa6";
+
 import {
   Select,
   SelectContent,
@@ -9,16 +10,21 @@ import {
   SelectValue,
 } from "../../@/components/ui/select";
 import Navbar from "../Components/Navbar";
+import { useState } from "react";
 
 const History = () => {
-  const disease: string[] = ["Hypertension", "Covid-19", "Fever", "Cold"];
-
+  const [diseases, setDiseases] = useState<string[]>([
+    "Hypertension",
+    "Covid-19",
+    "Fever",
+    "Cold",
+  ]);
   return (
     <main>
       <Navbar title="My History" input={false} username="Shreeraj Shinde" />
       <section>
-        {disease.map((i: string) => (
-          <HistoryCard diseaseName={i} />
+        {diseases.map((i: string, idx: number) => (
+          <HistoryCard diseaseName={i} key={idx} />
         ))}
 
         <button className="p-2 bg-blue-500 text-white font-medium w-20 rounded-lg flex justify-center items-center gap-[1px]">

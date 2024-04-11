@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IconType } from "react-icons";
 import { BsBarChartFill, BsPieChartFill } from "react-icons/bs";
 import { FaHistory, FaUser } from "react-icons/fa";
@@ -12,7 +12,7 @@ import { RiDashboard2Fill, RiLineChartFill } from "react-icons/ri";
 const AppSidebar = () => {
   const [mobileActive, setMobileActive] = useState<number>(window.innerWidth);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const {pathname}  = useLocation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     window.addEventListener("resize", () => {
@@ -31,7 +31,7 @@ const AppSidebar = () => {
         </button>
       )}
 
-       {mobileActive < 1100  ? (
+      {mobileActive < 1100 ? (
         <aside
           className="bg-blue-500 text-white rounded-xl overflow-auto absolute w-[20rem] p-2"
           style={
@@ -65,7 +65,7 @@ const AppSidebar = () => {
             Close
           </button>
         </aside>
-      ) : ( 
+      ) : (
         <aside className="bg-blue-500 text-white rounded-xl overflow-auto">
           <h1 className="uppercase tracking-wider font-bold text-xl pl-10 pt-12">
             Medcure
@@ -153,19 +153,19 @@ const DivTwo = ({ pathName }: { pathName: string }) => {
       </h2>
       <ul>
         <Li
-          url="/chart/line"
+          url="/chart/pie"
           name={"Pie"}
           Icon={BsPieChartFill}
           pathName={pathName}
         />
         <Li
-          url="/chat"
+          url="/chart/bar"
           name={"Bar"}
           Icon={BsBarChartFill}
           pathName={pathName}
         />
         <Li
-          url="/workout"
+          url="/chart/line"
           name={"Line"}
           Icon={RiLineChartFill}
           pathName={pathName}
