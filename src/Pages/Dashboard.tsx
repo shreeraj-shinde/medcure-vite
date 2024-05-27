@@ -5,11 +5,33 @@ import { IoFootsteps } from "react-icons/io5";
 import { MdBloodtype } from "react-icons/md";
 import { BarChart } from "../Components/Charts";
 import Navbar from "../Components/Navbar";
+import { useEffect } from "react";
+import { supabase } from "../Supabase/SupabaseClient";
+import { useAppSelector, useAppDispatch } from "../hooks/hooks";
+import { getData } from "../Store/Slices/UserSlice";
 
 const Dashboard = () => {
+  const dispatch = useAppDispatch();
+  const { name, phone, age, gender } = useAppSelector(
+    (state) => state.user.user
+  );
+  useEffect(() => {
+    const fetchSupabaseData = async () => {
+      const { data, error } = await supabase.from("user_data").select();
+      if (data) {
+        console.log(data[0]);
+        dispatch(getData(data[0]));
+      }
+      if (error) {
+        console.log(error);
+      }
+    };
+    fetchSupabaseData();
+  }, []);
+
   return (
     <main className="max-h-screen">
-      <Navbar title="Dashboard" username="Shreeraj Shinde" input={true} />
+      <Navbar title="Dashboard" username={name} input={true} />
       <section className="mt-8 flex flex-wrap justify-evenly">
         <Card
           title="Stress"
