@@ -8,19 +8,26 @@ import Navbar from "../Components/Navbar";
 import { useEffect } from "react";
 import { supabase } from "../Supabase/SupabaseClient";
 import { useAppSelector, useAppDispatch } from "../hooks/hooks";
-import { getData } from "../Store/Slices/UserSlice";
+import {
+  getName,
+  getAge,
+  getGender,
+  getEmail,
+  getPhone,
+} from "../Store/Slices/UserSlice";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
-  const { name, phone, age, gender } = useAppSelector(
-    (state) => state.user.user
-  );
+  const { name } = useAppSelector((state) => state.user);
   useEffect(() => {
     const fetchSupabaseData = async () => {
-      const { data, error } = await supabase.from("user_data").select();
+      const { data, error } = await supabase.from("users").select();
       if (data) {
-        console.log(data[0]);
-        dispatch(getData(data[0]));
+        dispatch(getName(data[0].name));
+        dispatch(getAge(data[0].age));
+        dispatch(getPhone(data[0].phone));
+        dispatch(getEmail(data[0].email));
+        dispatch(getGender(data[0].gender));
       }
       if (error) {
         console.log(error);

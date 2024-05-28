@@ -4,7 +4,7 @@ interface userState {
   name: string;
   phone: number;
   age: number;
-  gmail: string;
+  email: string;
   gender: string;
 }
 
@@ -12,7 +12,7 @@ const initialState: userState = {
   name: "",
   phone: Number(null),
   age: Number(null),
-  gmail: "",
+  email: "",
   gender: "",
 };
 
@@ -26,7 +26,17 @@ export const userSlice = createSlice({
     getPhone: (state, action: PayloadAction<number>) => {
       state.phone = action.payload;
     },
+    getAge: (state, action: PayloadAction<number>) => {
+      state.age = action.payload;
+    },
+    getGender: (state, action: PayloadAction<string>) => {
+      state.gender = action.payload;
+    },
+    getEmail: (state, action: PayloadAction<string>) => {
+      state.email = action.payload;
+    },
   },
 });
-export const { getData } = userSlice.actions;
+export const { getAge, getGender, getEmail, getName, getPhone } =
+  userSlice.actions;
 export default userSlice.reducer;

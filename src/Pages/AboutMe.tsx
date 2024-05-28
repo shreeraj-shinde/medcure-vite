@@ -1,16 +1,18 @@
 import Navbar from "../Components/Navbar";
 import Layout from "../Layout/Layout";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 const AboutMe = () => {
+  const { name, age, gender } = useAppSelector((state) => state.user);
   const weight = 70;
   const height = 1.7;
-  const age = 22;
+
   const bmi = Math.floor(weight / (height * height));
   const waist = 96;
   const neck = 30;
   const bfp = 1.2 * bmi + 0.23 * age - 16.2;
   return (
     <main>
-      <Navbar title="My Info" username="Shreeraj Shinde" input={false} />
+      <Navbar title="My Info" username={name} input={false} />
 
       <section className="mb-2 mt-6 grid grid-cols-1 gap-1 lg:grid-cols-2">
         <div className="flex bg-white w-full p-6 shadow-lg rounded-lg">
@@ -21,7 +23,7 @@ const AboutMe = () => {
           />
           <div className="p-4">
             <h3 className="text-xs text-gray-500">Name</h3>
-            <h2 className="text-lg text-gray-700 font-bold mb-2">Name</h2>
+            <h2 className="text-lg text-gray-700 font-bold mb-2">{name}</h2>
             <h3 className="text-xs text-gray-500">Age</h3>
             <h2 className="text-lg text-gray-700 font-bold mb-2">{age}</h2>
             <h3 className="text-xs text-gray-500">Gender</h3>

@@ -11,8 +11,10 @@ import {
 } from "../../@/components/ui/select";
 import Navbar from "../Components/Navbar";
 import { useState } from "react";
+import { useAppSelector } from "../hooks/hooks";
 
 const History = () => {
+  const { name } = useAppSelector((state) => state.user);
   const [diseases, setDiseases] = useState<string[]>([
     "Hypertension",
     "Covid-19",
@@ -21,7 +23,7 @@ const History = () => {
   ]);
   return (
     <main>
-      <Navbar title="My History" input={false} username="Shreeraj Shinde" />
+      <Navbar title="My History" input={false} username={name} />
       <section>
         {diseases.map((i: string, idx: number) => (
           <HistoryCard diseaseName={i} key={idx} />
