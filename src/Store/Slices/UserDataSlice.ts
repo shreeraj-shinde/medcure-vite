@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface UserDataState {
+  id: number;
   waist: number;
   hip: number;
   height: number;
@@ -14,6 +15,7 @@ interface UserDataState {
 }
 
 const initialState: UserDataState = {
+  id: Number(null),
   waist: Number(null),
   hip: Number(null),
   height: Number(null),
@@ -60,6 +62,9 @@ export const userDataSlice = createSlice({
     getPreviousDiagnosis: (state, action: PayloadAction<object>) => {
       state.previous_diagnosis = action.payload;
     },
+    getId: (state, action: PayloadAction<number>) => {
+      state.id = action.payload;
+    },
   },
 });
 export const {
@@ -73,5 +78,6 @@ export const {
   getUserSteps,
   getUserStress,
   getUserWeight,
+  getId,
 } = userDataSlice.actions;
 export default userDataSlice.reducer;

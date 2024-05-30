@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface userState {
+  userId: number;
   name: string;
   phone: number;
   age: number;
@@ -9,6 +10,7 @@ interface userState {
 }
 
 const initialState: userState = {
+  userId: Number(null),
   name: "",
   phone: Number(null),
   age: Number(null),
@@ -20,6 +22,9 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    getUserId: (state, action: PayloadAction<number>) => {
+      state.userId = action.payload;
+    },
     getName: (state, action: PayloadAction<string>) => {
       state.name = action.payload;
     },
@@ -37,6 +42,6 @@ export const userSlice = createSlice({
     },
   },
 });
-export const { getAge, getGender, getEmail, getName, getPhone } =
+export const { getAge, getGender, getEmail, getName, getPhone, getUserId } =
   userSlice.actions;
 export default userSlice.reducer;

@@ -15,17 +15,13 @@ import { useAppSelector } from "../hooks/hooks";
 
 const History = () => {
   const { name } = useAppSelector((state) => state.user);
-  const [diseases, setDiseases] = useState<string[]>([
-    "Hypertension",
-    "Covid-19",
-    "Fever",
-    "Cold",
-  ]);
+
+  const { medical_history } = useAppSelector((state) => state.userData);
   return (
     <main>
       <Navbar title="My History" input={false} username={name} />
       <section>
-        {diseases.map((i: string, idx: number) => (
+        {medical_history.map((i: string, idx: number) => (
           <HistoryCard diseaseName={i} key={idx} />
         ))}
 

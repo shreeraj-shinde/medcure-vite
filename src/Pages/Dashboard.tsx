@@ -6,34 +6,22 @@ import { MdBloodtype } from "react-icons/md";
 import { BarChart } from "../Components/Charts";
 import Navbar from "../Components/Navbar";
 import { useEffect } from "react";
-import { supabase } from "../Supabase/SupabaseClient";
-import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 import {
-  getName,
-  getAge,
-  getGender,
-  getEmail,
-  getPhone,
-} from "../Store/Slices/UserSlice";
+  useAppSelector,
+  useAppDispatch,
+  fetchUser,
+  fetchUserData,
+} from "../hooks/hooks";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
   const { name } = useAppSelector((state) => state.user);
+  const { stress, steps, oxygen, calories_burnt } = useAppSelector(
+    (state) => state.userData
+  );
   useEffect(() => {
-    const fetchSupabaseData = async () => {
-      const { data, error } = await supabase.from("users").select();
-      if (data) {
-        dispatch(getName(data[0].name));
-        dispatch(getAge(data[0].age));
-        dispatch(getPhone(data[0].phone));
-        dispatch(getEmail(data[0].email));
-        dispatch(getGender(data[0].gender));
-      }
-      if (error) {
-        console.log(error);
-      }
-    };
-    fetchSupabaseData();
+    fetchUser(dispatch);
+    fetchUserData(dispatch);
   }, []);
 
   return (
@@ -42,25 +30,25 @@ const Dashboard = () => {
       <section className="mt-8 flex flex-wrap justify-evenly">
         <Card
           title="Stress"
-          level={30}
+          level={stress}
           color="rgb(0, 121, 255)"
           Icon={FaHeadSideVirus}
         />
         <Card
           title="Oxygen"
-          level={97}
+          level={oxygen}
           color="rgb(0, 223, 162)"
           Icon={FaHeart}
         />
         <Card
           title="Steps"
-          level={3000}
+          level={steps}
           color="rgb(246, 250, 112)"
           Icon={IoFootsteps}
         />
         <Card
           title="Calories Burnt"
-          level={60}
+          level={calories_burnt}
           color="rgb(255, 0, 96)"
           Icon={MdBloodtype}
         />
