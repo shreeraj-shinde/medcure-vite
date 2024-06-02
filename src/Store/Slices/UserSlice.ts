@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { Activity } from "lucide-react";
 
 interface userState {
   userId: number;
@@ -8,6 +9,7 @@ interface userState {
   email: string;
   gender: string;
   disease_predicted: string;
+  selected_symptoms: string[];
 }
 
 const initialState: userState = {
@@ -18,6 +20,7 @@ const initialState: userState = {
   email: "",
   gender: "",
   disease_predicted: "Albele Tange Wale",
+  selected_symptoms: ["A", "B", "C"],
 };
 
 export const userSlice = createSlice({
@@ -45,6 +48,9 @@ export const userSlice = createSlice({
     getPredictedDisease: (state, action: PayloadAction<string>) => {
       state.disease_predicted = action.payload;
     },
+    getSelectedSymptoms: (state, action: PayloadAction<string[]>) => {
+      state.selected_symptoms = action.payload;
+    },
   },
 });
 export const {
@@ -55,5 +61,6 @@ export const {
   getPhone,
   getUserId,
   getPredictedDisease,
+  getSelectedSymptoms,
 } = userSlice.actions;
 export default userSlice.reducer;

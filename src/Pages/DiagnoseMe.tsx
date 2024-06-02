@@ -5,7 +5,10 @@ import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import Select from "react-select";
 import { options } from "../assets/data/options";
 import axios from "axios";
-import { getPredictedDisease } from "../Store/Slices/UserSlice";
+import {
+  getPredictedDisease,
+  getSelectedSymptoms,
+} from "../Store/Slices/UserSlice";
 
 const DiagnoseMe = () => {
   const dispatch = useAppDispatch();
@@ -67,7 +70,8 @@ const DiagnoseMe = () => {
         className="p-2 bg-green-500 hover:bg-green-600 text-white text-semibold rounded-lg ml-2"
         onClick={() => {
           console.log(disease);
-          handleProceed(dispatch);
+          dispatch(getSelectedSymptoms(disease));
+          // handleProceed(dispatch);
         }}
       >
         Confirm
