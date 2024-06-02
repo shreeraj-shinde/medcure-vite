@@ -9,7 +9,7 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { useState } from "react";
-import { useAppSelector } from "../hooks/hooks";
+import { updateUserData, useAppSelector, useAppDispatch } from "../hooks/hooks";
 
 interface UserData {
   Edname: string;
@@ -22,20 +22,22 @@ interface UserData {
 }
 
 const AboutMe = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [editData, setEditData] = useState<UserData>({
-    Edname: "",
-    Edage: Number(null),
-    Edgender: "",
-    Edheight: Number(null),
-    Edweight: Number(null),
-    EdWaist: Number(null),
-    EdHip: Number(null),
-  });
+  const dispatch = useAppDispatch();
   const { name, age, gender, userId } = useAppSelector((state) => state.user);
   const { waist, hip, height, weight } = useAppSelector(
     (state) => state.userData
   );
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [editData, setEditData] = useState<UserData>({
+    Edname: name,
+    Edage: age,
+    Edgender: gender,
+    Edheight: height,
+    Edweight: weight,
+    EdWaist: waist,
+    EdHip: hip,
+  });
 
   const bmi = Math.floor(weight / (height * height));
 
@@ -118,11 +120,12 @@ const AboutMe = () => {
               <br />
               <input
                 type="text"
-                placeholder={name}
+                placeholder={editData.Edname}
                 onChange={(e) => {
                   setEditData((prev) => ({ ...prev, Edname: e.target.value }));
                 }}
                 className="text-sm mb-4 border-2 border-gray-500 p-2 rounded-lg w-[70%]"
+                value={editData.Edname}
               />
               <br />
 
@@ -130,7 +133,8 @@ const AboutMe = () => {
               <br />
               <input
                 type="number"
-                placeholder={String(age)}
+                placeholder={String(editData.Edage)}
+                value={editData.Edage}
                 onChange={(e) => {
                   setEditData((prev) => ({
                     ...prev,
@@ -145,7 +149,8 @@ const AboutMe = () => {
               <br />
               <input
                 type="text"
-                placeholder={gender}
+                placeholder={editData.Edgender}
+                value={editData.Edgender}
                 onChange={(e) => {
                   setEditData((prev) => ({
                     ...prev,
@@ -164,7 +169,8 @@ const AboutMe = () => {
               <br />
               <input
                 type="number"
-                placeholder={String(height)}
+                placeholder={String(editData.Edheight)}
+                value={editData.Edheight}
                 onChange={(e) => {
                   setEditData((prev) => ({
                     ...prev,
@@ -180,7 +186,8 @@ const AboutMe = () => {
               <br />
               <input
                 type="text"
-                placeholder={String(weight)}
+                placeholder={String(editData.Edweight)}
+                value={editData.Edweight}
                 onChange={(e) => {
                   setEditData((prev) => ({
                     ...prev,
@@ -197,7 +204,8 @@ const AboutMe = () => {
               <br />
               <input
                 type="number"
-                placeholder={String(waist)}
+                placeholder={String(editData.EdWaist)}
+                value={editData.EdWaist}
                 onChange={(e) => {
                   setEditData((prev) => ({
                     ...prev,
@@ -212,7 +220,8 @@ const AboutMe = () => {
               <br />
               <input
                 type="number"
-                placeholder={String(hip)}
+                placeholder={String(editData.EdHip)}
+                value={editData.EdHip}
                 onChange={(e) => {
                   setEditData((prev) => ({
                     ...prev,
@@ -267,7 +276,14 @@ const AboutMe = () => {
                         className="inline-flex items-center gap-2 rounded-md bg-blue-500 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-blue-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white"
                         onClick={() => {
                           setIsOpen(false);
-                          console.log(editData);
+
+                          updateUserData(
+                            userId,
+                            editData.Edname,
+                            editData.Edage,
+                            editData.Edgender,
+                            dispatch
+                          );
                         }}
                       >
                         Got it, Sure!

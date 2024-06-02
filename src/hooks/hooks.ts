@@ -132,4 +132,7 @@ export const updateUserData = async (
       dispatch
     );
   }
+  if (error) {
+    console.log(error);
+  }
 };

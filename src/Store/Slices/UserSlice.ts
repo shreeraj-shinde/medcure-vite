@@ -7,6 +7,7 @@ interface userState {
   age: number;
   email: string;
   gender: string;
+  disease_predicted: string;
 }
 
 const initialState: userState = {
@@ -16,6 +17,7 @@ const initialState: userState = {
   age: Number(null),
   email: "",
   gender: "",
+  disease_predicted: "Albele Tange Wale",
 };
 
 export const userSlice = createSlice({
@@ -40,8 +42,18 @@ export const userSlice = createSlice({
     getEmail: (state, action: PayloadAction<string>) => {
       state.email = action.payload;
     },
+    getPredictedDisease: (state, action: PayloadAction<string>) => {
+      state.disease_predicted = action.payload;
+    },
   },
 });
-export const { getAge, getGender, getEmail, getName, getPhone, getUserId } =
-  userSlice.actions;
+export const {
+  getAge,
+  getGender,
+  getEmail,
+  getName,
+  getPhone,
+  getUserId,
+  getPredictedDisease,
+} = userSlice.actions;
 export default userSlice.reducer;

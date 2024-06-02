@@ -6,7 +6,8 @@ import Login from "./Pages/Login";
 const Dashboard = lazy(() => import("./Pages/Dashboard"));
 const AboutMe = lazy(() => import("./Pages/AboutMe"));
 const History = lazy(() => import("./Pages/History"));
-const Diagnose = lazy(() => import("./Pages/Diagnose"));
+const Diagnose = lazy(() => import("./Pages/DiagnoseMe"));
+const Results = lazy(() => import("./Pages/DiagnosisResults"));
 function App() {
   return (
     <>
@@ -17,7 +18,9 @@ function App() {
             <Route path="/about_me" element={<AboutMe />} />
             <Route path="/history" element={<History />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/chat" element={<Diagnose />} />
+            {/* <Route path="/chat" element={<Diagnose />} /> */}
+            <Route path="/diagnose" element={<Diagnose />} />
+            <Route path="/results" element={<Results />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

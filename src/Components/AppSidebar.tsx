@@ -129,7 +129,7 @@ const DivOne = ({ pathName }: { pathName: string }) => {
           pathName={pathName}
         />
         <Li
-          url="/chat"
+          url="/diagnose"
           name={"Diagnose"}
           Icon={FaUserDoctor}
           pathName={pathName}
