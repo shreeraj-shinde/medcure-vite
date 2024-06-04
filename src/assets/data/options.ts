@@ -1,3 +1,5 @@
+import { Label } from "@headlessui/react";
+
 export const options = [
   { value: "shivering", label: "Shivering" },
   { value: "diarrhoea", label: "Diarrhoea" },
@@ -15,7 +17,7 @@ export const options = [
   { value: "muscle_wasting", label: "Muscle Wasting" },
   { value: "burning_micturition", label: "Burning Micturition" },
   { value: "spotting_ urination", label: "Spotting Urination" },
-  { value: "fatigue", label: "Fatigue" },
+  { value: "fatigue", label: "Fatigue (Tiredness)" },
   { value: "weight_gain", label: "Weigth Gain" },
   { value: "anxiety", label: "Anxiety" },
   { value: "cold_hands_and_feets", label: "Cold Hands and Feets" },
@@ -26,7 +28,7 @@ export const options = [
   { value: "patches_in_throat", label: "Patches in throat" },
   { value: "irregular_sugar_level", label: "Irregular sugar level" },
   { value: "cough", label: "Cough" },
-  { value: "high_fever", label: "High fever" },
+  { value: "high_fever", label: "High fever(38°C (100.4°F) or higher)" },
   { value: "sunken_eyes", label: "Sunken Eyes" },
   { value: "breathlessness", label: "Breathlessness" },
   { value: "sweating", label: "Sweating" },
@@ -34,7 +36,7 @@ export const options = [
   { value: "indigestion", label: "Indigestion" },
   { value: "yellowish_skin", label: "Yellowish_skin" },
   { value: "dark_urine", label: "Dark Urine" },
-  { value: "nausea", label: "Nausea" },
+  { value: "nausea", label: "Nausea (uneasiness of the stomach)" },
   { value: "loss_of_appetite", label: "Loss of appetite" },
   { value: "pain_behind_the_eyes", label: "Pain behind the eyes" },
   { value: "back_pain", label: "Back Pain" },
@@ -48,7 +50,7 @@ export const options = [
   { value: "fluid_overload", label: "Fluid Overload" },
   { value: "swelling_of_stomach", label: "Swelling of stomach" },
   { value: "swelled_lymph_nodes", label: "Swelled lymph nodes" },
-  { value: "malaise", label: "Malaise" },
+  { value: "malaise", label: "Malaise (Weakness)" },
   {
     value: "blurred_and_distorted_vision",
     label: "Blurred and distorted vision",
@@ -58,4 +60,12 @@ export const options = [
   { value: "redness_of_eyes", label: "Redness_of_eyes" },
   { value: "redness_of_eyes", label: "Redness_of_eyes" },
   { value: "sinus_pressure", label: "Sinus pressure" },
+  { value: "high_blood_pressure", label: "High Blood Pressure(130/80 mmHg)" },
+  { value: "dizziness", label: "Dizziness" },
+  { value: "chest_pain", label: "Chest Pain" },
+  { value: "lack_of_concentration", label: "Lack of Concetration" },
+  { value: "loss_of_balance", label: "Loss of Balance" },
+  { value: "toxic_look_typhos", label: "Typhus" },
+  { value: "belly_pain", label: "Belly Pain" },
+  { value: "red_spots_over_body", label: "Red Spots all over body" },
 ];

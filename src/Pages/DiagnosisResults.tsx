@@ -1,10 +1,27 @@
 import Layout from "../Layout/Layout";
 import Navbar from "../Components/Navbar";
-import { getDescription, useAppSelector } from "../hooks/hooks";
+import {
+  fetchDescription,
+  useAppDispatch,
+  useAppSelector,
+} from "../hooks/hooks";
+import { useEffect } from "react";
 
 const DiagnosisResults = () => {
-  const { name, disease_predicted, selected_symptoms, medicine_predicted } =
-    useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
+  const {
+    name,
+    disease_predicted,
+    selected_symptoms,
+    medicine_predicted,
+    description,
+    home_remedy,
+  } = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    fetchDescription(disease_predicted, dispatch);
+  }, []);
 
   return (
     <section>
@@ -41,29 +58,13 @@ const DiagnosisResults = () => {
         <h3 className="text-xs text-gray-500 font-semibold mb-2">
           Home Remedies for {disease_predicted} :
         </h3>
-        <h2 className="text-md text-gray-700 font-semibold">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-          veritatis libero enim recusandae laboriosam exercitationem sunt
-          fugiat, eum sint dolor! Deleniti, nulla. Nam, dolor fugiat quo
-          expedita quis hic tempore? Lorem ipsum dolor sit, amet consectetur
-          adipisicing elit. Expedita, fugiat? Dicta reiciendis fugit illo
-          consequatur saepe culpa aliquam ut tempora iure incidunt error
-          architecto officia dolores maxime officiis, optio corrupti.
-        </h2>
+        <h2 className="text-md text-gray-700 font-semibold">{home_remedy}</h2>
       </div>
       <div className="p-6 bg-white rounded-lg shadow-lg min-h-72 ">
         <h3 className="text-xs text-gray-500 font-semibold mb-2">
           More About {disease_predicted} :
         </h3>
-        <h2 className="text-md text-gray-700 font-semibold">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-          veritatis libero enim recusandae laboriosam exercitationem sunt
-          fugiat, eum sint dolor! Deleniti, nulla. Nam, dolor fugiat quo
-          expedita quis hic tempore? Lorem ipsum dolor sit, amet consectetur
-          adipisicing elit. Expedita, fugiat? Dicta reiciendis fugit illo
-          consequatur saepe culpa aliquam ut tempora iure incidunt error
-          architecto officia dolores maxime officiis, optio corrupti.
-        </h2>
+        <h2 className="text-md text-gray-700 font-semibold">{description}</h2>
       </div>
     </section>
   );

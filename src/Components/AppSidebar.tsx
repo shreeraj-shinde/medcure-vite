@@ -134,12 +134,12 @@ const DivOne = ({ pathName }: { pathName: string }) => {
           Icon={FaUserDoctor}
           pathName={pathName}
         />
-        <Li
+        {/* <Li
           url="/workout"
           name={"Workouts"}
           Icon={GiMuscleUp}
           pathName={pathName}
-        />
+        /> */}
       </ul>
     </>
   );

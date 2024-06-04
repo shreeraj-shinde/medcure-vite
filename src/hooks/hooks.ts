@@ -10,6 +10,9 @@ import {
   getEmail,
   getPhone,
   getUserId,
+  getDescription,
+  getPredictedMedicine,
+  getHomeRemedy,
 } from "../Store/Slices/UserSlice";
 
 import {
@@ -24,6 +27,13 @@ import {
   getUserStress,
   getUserWeight,
 } from "../Store/Slices/UserDataSlice";
+import {
+  Common_Cold,
+  Dengue,
+  Hypertension,
+  Malaria,
+  Typhoid,
+} from "../assets/data/data";
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
@@ -144,14 +154,30 @@ export const updateUserData = async (
   }
 };
 
-export const getDescription = async (search_item: string) => {
-  const url = wdk.searchEntities({
-    search: search_item,
-    language: "en", // Default: en
-    limit: 30, // Default: 20
-    format: "json", // Defaut: json
-  });
-
-  const { data } = await axios.get(url);
-  console.log(data);
+export const fetchDescription = (disease: string, dispatch: Function) => {
+  if (disease == "Dengue") {
+    dispatch(getDescription(Dengue.description));
+    dispatch(getPredictedMedicine(Dengue.medicine));
+    dispatch(getHomeRemedy(Dengue.home_remedy));
+  }
+  if (disease == "Malaria") {
+    dispatch(getDescription(Malaria.description));
+    dispatch(getPredictedMedicine(Malaria.medicine));
+    dispatch(getHomeRemedy(Malaria.home_remedy));
+  }
+  if (disease == "Hypertension ") {
+    dispatch(getDescription(Hypertension.description));
+    dispatch(getPredictedMedicine(Hypertension.medicine));
+    dispatch(getHomeRemedy(Hypertension.home_remedy));
+  }
+  if (disease == "Common Cold") {
+    dispatch(getDescription(Common_Cold.description));
+    dispatch(getPredictedMedicine(Common_Cold.medicine));
+    dispatch(getHomeRemedy(Common_Cold.home_remedy));
+  }
+  if (disease == "Typhoid") {
+    dispatch(getDescription(Typhoid.description));
+    dispatch(getPredictedMedicine(Typhoid.medicine));
+    dispatch(getHomeRemedy(Typhoid.home_remedy));
+  }
 };

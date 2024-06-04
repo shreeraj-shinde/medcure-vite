@@ -1,7 +1,11 @@
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Layout from "../Layout/Layout";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import {
+  fetchDescription,
+  useAppDispatch,
+  useAppSelector,
+} from "../hooks/hooks";
 import Select from "react-select";
 import { options } from "../assets/data/options";
 import axios from "axios";
@@ -31,13 +35,7 @@ const DiagnoseMe = () => {
     });
     console.log(res.data);
     dispatch(getPredictedDisease(res.data));
-    if (res.data) {
-      const code = gender == "Male" ? 1 : 0;
-      const { data } = await axios.post("http://127.0.0.1:5000/prescribe", {
-        array: [res.data, code, age],
-      });
-      dispatch(getPredictedMedicine(data));
-    }
+    fetchDescription(res.data, dispatch);
   };
 
   return (
