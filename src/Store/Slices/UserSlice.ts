@@ -10,6 +10,7 @@ interface userState {
   gender: string;
   disease_predicted: string;
   selected_symptoms: string[];
+  medicine_predicted: string;
 }
 
 const initialState: userState = {
@@ -19,8 +20,9 @@ const initialState: userState = {
   age: Number(null),
   email: "",
   gender: "",
-  disease_predicted: "Albele Tange Wale",
-  selected_symptoms: ["A", "B", "C"],
+  disease_predicted: "",
+  selected_symptoms: [""],
+  medicine_predicted: "",
 };
 
 export const userSlice = createSlice({
@@ -51,6 +53,9 @@ export const userSlice = createSlice({
     getSelectedSymptoms: (state, action: PayloadAction<string[]>) => {
       state.selected_symptoms = action.payload;
     },
+    getPredictedMedicine: (state, action: PayloadAction<string>) => {
+      state.medicine_predicted = action.payload;
+    },
   },
 });
 export const {
@@ -62,5 +67,6 @@ export const {
   getUserId,
   getPredictedDisease,
   getSelectedSymptoms,
+  getPredictedMedicine,
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,12 +1,11 @@
-import React from "react";
 import Layout from "../Layout/Layout";
 import Navbar from "../Components/Navbar";
-import { useAppSelector } from "../hooks/hooks";
+import { getDescription, useAppSelector } from "../hooks/hooks";
 
 const DiagnosisResults = () => {
-  const { name, disease_predicted, selected_symptoms } = useAppSelector(
-    (state) => state.user
-  );
+  const { name, disease_predicted, selected_symptoms, medicine_predicted } =
+    useAppSelector((state) => state.user);
+
   return (
     <section>
       <Navbar title="Diagnosis Results" username={name} input={false} />
@@ -16,9 +15,14 @@ const DiagnosisResults = () => {
           <h3 className="text-xs text-gray-500">
             Symptoms you have selected :{" "}
           </h3>
-          <h2 className="text-md text-gray-700 font-semibold mb-2">
-            {selected_symptoms.toString()}
-          </h2>
+          <div className="flex flex-wrap">
+            {selected_symptoms.map((symptom) => (
+              <h2 className="text-md text-gray-700 font-semibold m-1">
+                {symptom}
+              </h2>
+            ))}
+            <h2 className="text-md text-gray-700 font-semibold mb-2"></h2>
+          </div>
         </div>
         <div className="p-4 w-[33%]">
           <h3 className="text-xs text-gray-500">Disease you may have :</h3>
@@ -29,7 +33,7 @@ const DiagnosisResults = () => {
         <div className="p-4 w-[33%]">
           <h3 className="text-xs text-gray-500">Recommended Medicine :</h3>
           <h2 className="text-md text-gray-700 font-semibold mb-2">
-            Paracetemol
+            {medicine_predicted}
           </h2>
         </div>
       </div>

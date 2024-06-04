@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../Store/store";
+import { WBK } from "wikibase-sdk";
 import { supabase } from "../Supabase/SupabaseClient";
+import axios from "axios";
 import {
   getName,
   getAge,
@@ -26,6 +28,11 @@ import {
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 export const useAppSelector = useSelector.withTypes<RootState>();
+
+const wdk = WBK({
+  instance: "https://www.wikidata.org",
+  sparqlEndpoint: "https://query.wikidata.org/sparql",
+});
 
 export const getUser = (
   userId: number,
@@ -135,4 +142,16 @@ export const updateUserData = async (
   if (error) {
     console.log(error);
   }
+};
+
+export const getDescription = async (search_item: string) => {
+  const url = wdk.searchEntities({
+    search: search_item,
+    language: "en", // Default: en
+    limit: 30, // Default: 20
+    format: "json", // Defaut: json
+  });
+
+  const { data } = await axios.get(url);
+  console.log(data);
 };

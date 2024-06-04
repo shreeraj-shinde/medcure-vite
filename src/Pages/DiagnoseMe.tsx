@@ -8,13 +8,16 @@ import axios from "axios";
 import {
   getPredictedDisease,
   getSelectedSymptoms,
+  getPredictedMedicine,
 } from "../Store/Slices/UserSlice";
+import { useNavigate } from "react-router-dom";
 
 const DiagnoseMe = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [disease, setDisease] = useState<string[]>([String(null)]);
 
-  const { name } = useAppSelector((state) => state.user);
+  const { name, age, gender } = useAppSelector((state) => state.user);
 
   const getSymptomsArr = (idx: number, symptom: string | undefined) => {
     const data = disease;
@@ -28,6 +31,13 @@ const DiagnoseMe = () => {
     });
     console.log(res.data);
     dispatch(getPredictedDisease(res.data));
+    if (res.data) {
+      const code = gender == "Male" ? 1 : 0;
+      const { data } = await axios.post("http://127.0.0.1:5000/prescribe", {
+        array: [res.data, code, age],
+      });
+      dispatch(getPredictedMedicine(data));
+    }
   };
 
   return (
@@ -69,9 +79,9 @@ const DiagnoseMe = () => {
       <button
         className="p-2 bg-green-500 hover:bg-green-600 text-white text-semibold rounded-lg ml-2"
         onClick={() => {
-          console.log(disease);
           dispatch(getSelectedSymptoms(disease));
-          // handleProceed(dispatch);
+          handleProceed(dispatch);
+          navigate("/results");
         }}
       >
         Confirm
