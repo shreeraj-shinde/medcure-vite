@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import "./App.css";
 import Login from "./Pages/Login";
 import { useAppSelector } from "./hooks/hooks";
+import Loading from "./Components/Loading";
 
 const Dashboard = lazy(() => import("./Pages/Dashboard"));
 const AboutMe = lazy(() => import("./Pages/AboutMe"));
@@ -16,7 +17,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Suspense fallback={<h1>Loading...</h1>}>
+        <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/home" element={<Dashboard />} />
             <Route path="/about_me" element={<AboutMe />} />

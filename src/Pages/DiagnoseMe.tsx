@@ -34,8 +34,8 @@ const DiagnoseMe = () => {
       array: disease,
     });
     console.log(res.data);
-    dispatch(getPredictedDisease(res.data));
-    fetchDescription(res.data, dispatch);
+    // dispatch(getPredictedDisease(res.data));
+    // fetchDescription(res.data, dispatch);
   };
 
   return (

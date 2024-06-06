@@ -1,5 +1,6 @@
 import Navbar from "../Components/Navbar";
 import Layout from "../Layout/Layout";
+import img from "../assets/smartwatch.png.png";
 import {
   Button,
   Dialog,
@@ -99,6 +100,19 @@ const AboutMe = () => {
           </div>
         </div>
       </section>
+
+      {/* 
+      Smart Watch  */}
+      <section className="bg-white p-4 rounded-lg mt-2 mb-2 flex justify-between items-center">
+        <img src={img} alt="smart watch" className="h-[120px]" />
+        <div className="p-2 rounded-full border-2 border-red-500 bg-red-300 text-red-500 font-semibold text-sm">
+          Not Connected
+        </div>
+        <button className="bg-blue-500 text-sm p-2 pl-4 pr-4 mb-4 text-white font-semibold rounded-md hover:bg-blue-600">
+          Connect
+        </button>
+      </section>
+
       <section className="bg-white p-2 rounded-lg shadow-lg mt-1">
         <h1 className="uppercase tracking-wider font-semibold text-center mt-2">
           Edit My Info
