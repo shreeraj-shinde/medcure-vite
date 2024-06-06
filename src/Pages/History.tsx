@@ -16,15 +16,11 @@ import { useAppSelector } from "../hooks/hooks";
 const History = () => {
   const { name } = useAppSelector((state) => state.user);
 
-  const { medical_history } = useAppSelector((state) => state.userData);
+  const { previous_diagnosis } = useAppSelector((state) => state.userData);
   return (
     <main>
       <Navbar title="My History" input={false} username={name} />
       <section>
-        {medical_history.map((i: string, idx: number) => (
-          <HistoryCard diseaseName={i} key={idx} />
-        ))}
-
         <button className="p-2 bg-blue-500 text-white font-medium w-20 rounded-lg flex justify-center items-center gap-[1px]">
           <FaPlus />
           Add

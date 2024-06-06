@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import "./App.css";
-import Login from "./Pages/Login";
 import { useAppSelector } from "./hooks/hooks";
 import Loading from "./Components/Loading";
+import Login from "./Pages/Login";
 
 const Dashboard = lazy(() => import("./Pages/Dashboard"));
 const AboutMe = lazy(() => import("./Pages/AboutMe"));

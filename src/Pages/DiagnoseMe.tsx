@@ -13,6 +13,11 @@ import {
   getPredictedDisease,
   getSelectedSymptoms,
   getPredictedMedicine,
+  getDescription,
+  getDiet,
+  getWorkouts,
+  getPrecautions,
+  getHomeRemedy,
 } from "../Store/Slices/UserSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -33,9 +38,19 @@ const DiagnoseMe = () => {
     const res = await axios.post("http://127.0.0.1:5000/diagnose", {
       array: disease,
     });
-    console.log(res.data);
-    // dispatch(getPredictedDisease(res.data));
-    // fetchDescription(res.data, dispatch);
+    // console.log("Med", res.data.Medicine[0]);
+
+    // console.log("Workout", res.data.Workouts);
+    // console.log("Precautions", res.data.Precaution);
+    // console.log("Home Remedies", res.data.Home_Remedies);
+
+    dispatch(getPredictedMedicine(res.data.Medicine[0]));
+    dispatch(getDiet(res.data.Diet[0]));
+    dispatch(getWorkouts(res.data.Workouts));
+    dispatch(getPrecautions(res.data.Precaution));
+    dispatch(getDescription(res.data.Description));
+    dispatch(getHomeRemedy(res.data.Home_Remedies));
+    dispatch(getPredictedDisease(res.data.Disease));
   };
 
   return (

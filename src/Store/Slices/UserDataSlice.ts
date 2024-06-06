@@ -11,7 +11,7 @@ interface UserDataState {
   oxygen: number;
   stress: number;
   calories_burnt: number;
-  previous_diagnosis: object;
+  previous_diagnosis: object[];
 }
 
 const initialState: UserDataState = {
@@ -25,7 +25,7 @@ const initialState: UserDataState = {
   oxygen: Number(null),
   stress: Number(null),
   calories_burnt: Number(null),
-  previous_diagnosis: {},
+  previous_diagnosis: [],
 };
 
 export const userDataSlice = createSlice({
@@ -59,7 +59,7 @@ export const userDataSlice = createSlice({
     getBurntCalories: (state, action: PayloadAction<number>) => {
       state.calories_burnt = action.payload;
     },
-    getPreviousDiagnosis: (state, action: PayloadAction<object>) => {
+    getPreviousDiagnosis: (state, action: PayloadAction<object[]>) => {
       state.previous_diagnosis = action.payload;
     },
     getId: (state, action: PayloadAction<number>) => {
