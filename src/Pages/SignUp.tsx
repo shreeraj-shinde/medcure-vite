@@ -6,17 +6,15 @@ import "react-toastify/dist/ReactToastify.css";
 
 interface User {
   email: string;
-  name: string;
+
   age: number;
-  gender: string;
+
   password: string;
   confirmedPassword: string;
 }
 
 const SignUp = () => {
-  const notify = () => toast("Wow so easy !");
-
-  const SignUpuser = async (e) => {
+  const SignUpuser = async (e: any) => {
     e.preventDefault();
     if (user.password != user.confirmedPassword) {
       toast.error(`Passwords do not match`, {
@@ -38,32 +36,18 @@ const SignUp = () => {
       );
     }
     if (error) {
+      console.log(error);
       toast.error(`Error ${error}`, {
         position: "top-right",
       });
     }
   };
 
-  const SaveToDatabase = async () => {
-    const { data, error } = await supabase
-      .from("users")
-      .insert([
-        {
-          name: user.name,
-          email: user.email,
-          age: user.age,
-          gender: user.gender,
-        },
-      ])
-      .select();
-    console.log(data);
-  };
-
   const [user, setUser] = useState<User>({
     email: "",
-    name: "",
+
     age: Number(null),
-    gender: "",
+
     password: "",
     confirmedPassword: "",
   });
@@ -76,19 +60,10 @@ const SignUp = () => {
             Sign Up
           </h2>
 
-          <form className="mt-4 flex flex-col gap-6">
+          <form className="mt-8 flex flex-col gap-8">
             {/* <label className="font-medium text-gray-700 mt-2">
               Email or Phone
             </label> */}
-
-            <input
-              onChange={(e) =>
-                setUser((prev) => ({ ...prev, name: e.target.value }))
-              }
-              type="text"
-              placeholder="Name"
-              className="p-2 outline-0 w-full border-b-2 border-gray-600 rounded-lg lg:w-4/5"
-            />
 
             <input
               onChange={(e) =>
@@ -99,29 +74,19 @@ const SignUp = () => {
               className="p-2 outline-0 w-full border-b-2 border-gray-600 rounded-lg lg:w-4/5"
             />
 
-            <div className="flex gap-3">
-              <input
-                onChange={(e) => {
-                  const age = 2024 - Number(e.target.value);
-                  age >= 18
-                    ? setUser((prev) => ({ ...prev, age: age }))
-                    : alert(
-                        "Your age should be atleast 18 years to create profile"
-                      );
-                }}
-                type="text"
-                placeholder="Birth Year"
-                className="p-2 outline-0 w-full border-b-2 border-gray-600 rounded-lg lg:w-[39%]"
-              />
-              <input
-                onChange={(e) =>
-                  setUser((prev) => ({ ...prev, gender: e.target.value }))
-                }
-                type="text"
-                placeholder="Gender"
-                className="p-2 outline-0 w-full border-b-2 border-gray-600 rounded-lg lg:w-[39%]"
-              />
-            </div>
+            <input
+              onChange={(e) => {
+                const age = 2024 - Number(e.target.value);
+                age >= 18
+                  ? setUser((prev) => ({ ...prev, age: age }))
+                  : alert(
+                      "Your age should be atleast 18 years to create profile"
+                    );
+              }}
+              type="text"
+              placeholder="Birth Year"
+              className="p-2 outline-0 w-full border-b-2 border-gray-600 rounded-lg lg:w-4/5"
+            />
 
             {/* <label className="font-medium text-gray-700 mt-2">Passsword</label> */}
 
@@ -148,6 +113,7 @@ const SignUp = () => {
 
             <button
               onClick={(e) => SignUpuser(e)}
+              disabled={2024 - user.age >= 18 ? false : true}
               className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium w-full lg:w-1/3 mt-4"
             >
               Sign Up
@@ -160,12 +126,9 @@ const SignUp = () => {
             alt=""
             className="w-full h-full object-cover object-right"
           />
+          <ToastContainer />
         </div>
       </section>
-      <div>
-        <button onClick={notify}>Notify !</button>
-        <ToastContainer />
-      </div>
     </main>
   );
 };

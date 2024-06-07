@@ -11,7 +11,7 @@ const AboutMe = lazy(() => import("./Pages/AboutMe"));
 const History = lazy(() => import("./Pages/History"));
 const Diagnose = lazy(() => import("./Pages/DiagnoseMe"));
 const Results = lazy(() => import("./Pages/DiagnosisResults"));
-
+const UserInfo = lazy(() => import("./Pages/UserInfo"));
 function App() {
   const { disease_predicted } = useAppSelector((state) => state.user);
 
@@ -20,6 +20,7 @@ function App() {
       <BrowserRouter>
         <Suspense fallback={<Loading />}>
           <Routes>
+            <Route path="/user_info" element={<UserInfo />} />
             <Route path="/home" element={<Dashboard />} />
             <Route path="/about_me" element={<AboutMe />} />
             <Route path="/history" element={<History />} />
