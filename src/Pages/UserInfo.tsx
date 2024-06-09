@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createDBUser } from "../hooks/hooks";
 
 interface User {
   email: string;
@@ -8,7 +9,18 @@ interface User {
 }
 
 const UserInfo = () => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState<User>({
+    email: "",
+    name: "",
+    age: Number(null),
+    gender: "",
+  });
+
+  const handleCreate = (e: any) => {
+    e.preventDefault();
+    const data = createDBUser(user.name, user.age, user.email, user.gender);
+    console.log(data);
+  };
 
   return (
     <section className="h-screen w-screen flex items-center justify-center">
@@ -34,13 +46,30 @@ const UserInfo = () => {
                     className="text-sm mb-4 border-2 border-gray-500 p-2 rounded-lg w-[70%]"
                   />
                   <br />
+
+                  <label className="text-xs text-gray-500 mr-4">Email</label>
+                  <br />
+                  <input
+                    type="text"
+                    placeholder="Email"
+                    onChange={(e) =>
+                      setUser((prev) => ({ ...prev, email: e.target.value }))
+                    }
+                    className="text-sm mb-4 border-2 border-gray-500 p-2 rounded-lg w-[70%]"
+                    value={user.email}
+                  />
+                  <br />
+
                   <label className="text-xs text-gray-500 mr-4">Name</label>
                   <br />
                   <input
                     type="text"
-                    placeholder=""
+                    placeholder="Name"
+                    onChange={(e) =>
+                      setUser((prev) => ({ ...prev, name: e.target.value }))
+                    }
                     className="text-sm mb-4 border-2 border-gray-500 p-2 rounded-lg w-[70%]"
-                    value=""
+                    value={user.name}
                   />
                   <br />
 
@@ -48,8 +77,14 @@ const UserInfo = () => {
                   <br />
                   <input
                     type="number"
-                    placeholder=""
-                    value=""
+                    onChange={(e) =>
+                      setUser((prev) => ({
+                        ...prev,
+                        age: Number(e.target.value),
+                      }))
+                    }
+                    placeholder="Age"
+                    value={user.age}
                     className="text-sm mb-4 border-2 border-gray-500 p-2 rounded-lg w-[70%]"
                   />
                   <br />
@@ -58,8 +93,11 @@ const UserInfo = () => {
                   <br />
                   <input
                     type="text"
-                    placeholder={""}
-                    value={""}
+                    placeholder={"Gender"}
+                    value={user.gender}
+                    onChange={(e) =>
+                      setUser((prev) => ({ ...prev, gender: e.target.value }))
+                    }
                     className="text-sm mb-4 border-2 border-gray-500 p-2 rounded-lg w-[70%]"
                   />
                 </form>
@@ -115,7 +153,12 @@ const UserInfo = () => {
               </div>
             </div>
             <div className="grid place-items-center">
-              <button className="bg-blue-500 text-sm p-2 pl-4 pr-4 mb-4 text-white font-semibold rounded-md hover:bg-blue-600">
+              <button
+                onClick={(e) => {
+                  handleCreate(e);
+                }}
+                className="bg-blue-500 text-sm p-2 pl-4 pr-4 mb-4 text-white font-semibold rounded-md hover:bg-blue-600"
+              >
                 Create Account
               </button>
             </div>

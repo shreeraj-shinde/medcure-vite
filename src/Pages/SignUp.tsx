@@ -1,53 +1,54 @@
 import { useState } from "react";
-import { supabase } from "../Supabase/SupabaseClient";
+
 import img from "../assets/signUp-background.jpg";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  createAuthUser,
+  createDataforUser,
+  createDBUser,
+} from "../hooks/hooks";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   email: string;
-
+  name: string;
   age: number;
-
   password: string;
+  gender: string;
   confirmedPassword: string;
 }
 
 const SignUp = () => {
-  const SignUpuser = async (e: any) => {
-    e.preventDefault();
-    if (user.password != user.confirmedPassword) {
-      toast.error(`Passwords do not match`, {
-        position: "top-right",
-      });
-      return;
-    }
-    let { data, error } = await supabase.auth.signUp({
-      email: user.email,
-      password: user.password,
-    });
-    if (data) {
-      toast.info(
-        `Success ${data}`,
+  const navigate = useNavigate();
 
-        {
-          position: "top-right",
-        }
+  const CreateUser = (e: any) => {
+    e.preventDefault();
+    if (userData.password === userData.confirmedPassword) {
+      const authId = createAuthUser(userData.email, userData.password);
+      if (authId == null) {
+        toast.error("Error while creating account!! Try Again");
+        return;
+      }
+      const data = createDBUser(
+        userData.name,
+        userData.age,
+        userData.email,
+        userData.gender
       );
-    }
-    if (error) {
-      console.log(error);
-      toast.error(`Error ${error}`, {
-        position: "top-right",
-      });
-    }
+
+      console.log(data);
+
+      navigate("/login");
+      toast.info("Account Created!! Confirm your email and then Login");
+    } else toast.error("Passwords do not match");
   };
 
-  const [user, setUser] = useState<User>({
+  const [userData, setUser] = useState<User>({
     email: "",
-
+    name: "",
     age: Number(null),
-
+    gender: "",
     password: "",
     confirmedPassword: "",
   });
@@ -60,11 +61,19 @@ const SignUp = () => {
             Sign Up
           </h2>
 
-          <form className="mt-8 flex flex-col gap-8">
+          <form className="mt-6 flex flex-col gap-6">
             {/* <label className="font-medium text-gray-700 mt-2">
               Email or Phone
             </label> */}
 
+            <input
+              onChange={(e) =>
+                setUser((prev) => ({ ...prev, name: e.target.value }))
+              }
+              type="text"
+              placeholder="Name"
+              className="p-2 outline-0 w-full border-b-2 border-gray-600 rounded-lg lg:w-4/5"
+            />
             <input
               onChange={(e) =>
                 setUser((prev) => ({ ...prev, email: e.target.value }))
@@ -73,21 +82,30 @@ const SignUp = () => {
               placeholder="Email"
               className="p-2 outline-0 w-full border-b-2 border-gray-600 rounded-lg lg:w-4/5"
             />
+            <div className="flex gap-2">
+              <input
+                onChange={(e) =>
+                  setUser((prev) => ({ ...prev, gender: e.target.value }))
+                }
+                type="text"
+                placeholder="Gender"
+                className="p-2 outline-0 w-full border-b-2 border-gray-600 rounded-lg lg:w-[40%]"
+              />
 
-            <input
-              onChange={(e) => {
-                const age = 2024 - Number(e.target.value);
-                age >= 18
-                  ? setUser((prev) => ({ ...prev, age: age }))
-                  : alert(
-                      "Your age should be atleast 18 years to create profile"
-                    );
-              }}
-              type="text"
-              placeholder="Birth Year"
-              className="p-2 outline-0 w-full border-b-2 border-gray-600 rounded-lg lg:w-4/5"
-            />
-
+              <input
+                onChange={(e) => {
+                  const age = 2024 - Number(e.target.value);
+                  age >= 18
+                    ? setUser((prev) => ({ ...prev, age: age }))
+                    : toast.error(
+                        "Your age must be atleast 18 to continue further"
+                      );
+                }}
+                type="text"
+                placeholder="Birth Year"
+                className="p-2 outline-0 w-full border-b-2 border-gray-600 rounded-lg lg:w-[40%]"
+              />
+            </div>
             {/* <label className="font-medium text-gray-700 mt-2">Passsword</label> */}
 
             <input
@@ -112,8 +130,8 @@ const SignUp = () => {
             />
 
             <button
-              onClick={(e) => SignUpuser(e)}
-              disabled={2024 - user.age >= 18 ? false : true}
+              onClick={(e) => CreateUser(e)}
+              disabled={2024 - userData.age >= 18 ? false : true}
               className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium w-full lg:w-1/3 mt-4"
             >
               Sign Up

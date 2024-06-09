@@ -12,6 +12,7 @@ import {
   fetchUser,
   fetchUserData,
 } from "../hooks/hooks";
+import { ToastContainer, toast } from "react-toastify";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
@@ -19,10 +20,6 @@ const Dashboard = () => {
   const { stress, steps, oxygen, calories_burnt } = useAppSelector(
     (state) => state.userData
   );
-  useEffect(() => {
-    fetchUser(dispatch);
-    fetchUserData(dispatch);
-  }, []);
 
   return (
     <main className="max-h-screen">
@@ -67,6 +64,7 @@ const Dashboard = () => {
             bgColor="rgb(64, 86, 244)"
             bgColor2="rgb(206, 187, 201)"
           />
+          <ToastContainer />
         </div>
       </section>
     </main>

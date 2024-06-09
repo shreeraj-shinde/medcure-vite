@@ -83,11 +83,15 @@ export const loadUserData = (
   dispatch(getUserOxygen(oxygen));
   dispatch(getUserStress(stress));
   dispatch(getUserMedicalHistory(medical_history));
-  dispatch(getPreviousDiagnosis(previous_diagnosis));
+  // dispatch(getPreviousDiagnosis(previous_diagnosis));
 };
 
-export const fetchUser = async (dispatch: Function) => {
-  const { data, error } = await supabase.from("users").select();
+export const fetchUser = async (dispatch: Function, email: string) => {
+  const { data, error } = await supabase
+    .from("users")
+    .select()
+    .eq("email", email);
+  console.log("Fetch, User : ", data);
   if (data) {
     getUser(
       data[0].id,
@@ -104,8 +108,11 @@ export const fetchUser = async (dispatch: Function) => {
   }
 };
 
-export const fetchUserData = async (dispatch: Function) => {
-  const { data, error } = await supabase.from("user_data").select().eq("id", 1);
+export const fetchUserData = async (dispatch: Function, id: number) => {
+  const { data, error } = await supabase
+    .from("user_data")
+    .select()
+    .eq("id", id);
   if (data) {
     console.log(data[0]);
     loadUserData(
@@ -179,5 +186,63 @@ export const fetchDescription = (disease: string, dispatch: Function) => {
     dispatch(getDescription(Typhoid.description));
     dispatch(getPredictedMedicine(Typhoid.medicine));
     dispatch(getHomeRemedy(Typhoid.home_remedy));
+  }
+};
+
+export const createAuthUser = async (email: string, password: string) => {
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        emailRedirectTo: "http://localhost:5173/login",
+      },
+    });
+    if (error) throw error;
+
+    return data.user?.id;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createDBUser = async (
+  name: string,
+  age: number,
+  email: string,
+  gender: string
+) => {
+  try {
+    const { data, error } = await supabase.from("users").insert([
+      {
+        name: name,
+        age: age,
+        email: email,
+        gender: gender,
+      },
+    ]);
+    if (error) throw error;
+    console.log("Users Data Table : ", data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createDataforUser = async (email: string, id: number) => {
+  try {
+    const { data, error } = await supabase.from("user_data").insert([
+      {
+        email: email,
+      },
+      {
+        id: id,
+      },
+    ]);
+    if (error) throw error;
+    console.log("User DATA table :", data);
+    return data;
+  } catch (error) {
+    console.log(error);
   }
 };

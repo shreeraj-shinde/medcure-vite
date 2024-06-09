@@ -4,11 +4,16 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchUser, useAppDispatch } from "../hooks/hooks";
 interface UserInput {
   email: string;
   password: string;
 }
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const [user, setUser] = useState<UserInput>({
     email: "",
     password: "",
@@ -20,12 +25,11 @@ const Login = () => {
       email: user.email,
       password: user.password,
     });
-    if (data.user != null) {
-      toast.success("Logged In Successfully", {
-        position: "top-right",
-      });
-      console.log(data);
-    }
+    console.log(data);
+    fetchUser(dispatch, user.email);
+    toast.success("Login Successfully");
+    setTimeout(() => navigate("/home"), 3000);
+
     if (error) {
       toast.error(error.message, {
         position: "top-right",
