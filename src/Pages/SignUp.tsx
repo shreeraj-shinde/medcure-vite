@@ -37,10 +37,9 @@ const SignUp = () => {
         userData.gender
       );
 
-      console.log(data);
-
-      navigate("/login");
+      console.log(JSON.stringify(data));
       toast.info("Account Created!! Confirm your email and then Login");
+      setTimeout(() => navigate("/login"), 2000);
     } else toast.error("Passwords do not match");
   };
 

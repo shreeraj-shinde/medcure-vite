@@ -9,6 +9,7 @@ const Diagnose = () => {
   const [messages, setMessage] = useState<string[]>([]);
   const [inputmessage, setinputmessage] = useState<string>("");
   const { name } = useAppSelector((state) => state.user);
+
   return (
     <section>
       <Navbar title="Diagnose" username={name} input={false} />

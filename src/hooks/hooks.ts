@@ -91,7 +91,7 @@ export const fetchUser = async (dispatch: Function, email: string) => {
     .from("users")
     .select()
     .eq("email", email);
-  console.log("Fetch, User : ", data);
+
   if (data) {
     getUser(
       data[0].id,
@@ -108,13 +108,24 @@ export const fetchUser = async (dispatch: Function, email: string) => {
   }
 };
 
-export const fetchUserData = async (dispatch: Function, id: number) => {
+export const fetchUserData = async (
+  dispatch: Function,
+  id: number,
+  email?: any
+) => {
   const { data, error } = await supabase
     .from("user_data")
     .select()
     .eq("id", id);
-  if (data) {
-    console.log(data[0]);
+
+  console.log("User Data", data?.length);
+  if (data?.length == 0) {
+    console.log("ID", id);
+    console.log("Email", email);
+    createDataforUser(email, id, dispatch);
+    return;
+  }
+  if (data?.length == 1) {
     loadUserData(
       data[0].height,
       data[0].weight,
@@ -128,8 +139,6 @@ export const fetchUserData = async (dispatch: Function, id: number) => {
       data[0].previous_diagnosis,
       dispatch
     );
-  } else {
-    alert(error);
   }
 };
 
@@ -229,20 +238,63 @@ export const createDBUser = async (
   }
 };
 
-export const createDataforUser = async (email: string, id: number) => {
+export const createDataforUser = async (
+  email: string,
+  id: number,
+  dispatch: Function
+) => {
   try {
-    const { data, error } = await supabase.from("user_data").insert([
-      {
-        email: email,
-      },
-      {
-        id: id,
-      },
-    ]);
+    const { data, error } = await supabase
+      .from("user_data")
+      .insert([
+        {
+          email: email,
+        },
+        {
+          id: id,
+        },
+      ])
+      .select();
+    if (data) {
+      loadUserData(
+        data[0].height,
+        data[0].weight,
+        data[0].hip,
+        data[0].waist,
+        data[0].steps,
+        data[0].calories_burnt,
+        data[0].oxygen,
+        data[0].stress,
+        data[0].medical_history,
+        data[0].previous_diagnosis,
+        dispatch
+      );
+    }
     if (error) throw error;
     console.log("User DATA table :", data);
     return data;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const fetchUserByAuthToken = async (
+  access_token: string,
+  dispatch: Function
+) => {
+  const { data, error } = await supabase
+    .from("users")
+    .select()
+    .eq("auth_token", access_token);
+  if (data) {
+    getUser(
+      data[0].id,
+      data[0].name,
+      data[0].email,
+      data[0].gender,
+      data[0].age,
+      data[0].phone,
+      dispatch
+    );
   }
 };

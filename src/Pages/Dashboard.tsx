@@ -11,15 +11,29 @@ import {
   useAppDispatch,
   fetchUser,
   fetchUserData,
+  fetchUserByAuthToken,
 } from "../hooks/hooks";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
-  const { name } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
+  const { name, userId, email } = useAppSelector((state) => state.user);
   const { stress, steps, oxygen, calories_burnt } = useAppSelector(
     (state) => state.userData
   );
+
+  useEffect(() => {
+    console.log(userId, email);
+    const token = localStorage.getItem("token") as string;
+    fetchUserByAuthToken(token, dispatch);
+    // fetchUserData(dispatch, userId, email);
+
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
 
   return (
     <main className="max-h-screen">

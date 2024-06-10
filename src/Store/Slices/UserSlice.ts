@@ -15,6 +15,7 @@ interface userState {
   precautions: string;
   diet: string;
   workouts: string;
+  token: string;
 }
 
 const initialState: userState = {
@@ -32,6 +33,7 @@ const initialState: userState = {
   precautions: "",
   workouts: "",
   diet: "",
+  token: "",
 };
 
 export const userSlice = createSlice({
@@ -79,6 +81,9 @@ export const userSlice = createSlice({
     },
     getWorkouts: (state, action: PayloadAction<string>) => {
       state.workouts = action.payload;
+    },
+    getToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
     },
   },
 });

@@ -11,6 +11,7 @@ import {
 } from "@headlessui/react";
 import { useState } from "react";
 import { updateUserData, useAppSelector, useAppDispatch } from "../hooks/hooks";
+import DialogBox from "../Components/DialogBox";
 
 interface UserData {
   Edname: string;
@@ -28,7 +29,7 @@ const AboutMe = () => {
   const { waist, hip, height, weight } = useAppSelector(
     (state) => state.userData
   );
-
+  const [trigger, setTrigger] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [editData, setEditData] = useState<UserData>({
     Edname: name,
@@ -108,7 +109,10 @@ const AboutMe = () => {
         <div className="p-2 rounded-full border-2 border-red-500 bg-red-300 text-red-500 font-semibold text-sm">
           Not Connected
         </div>
-        <button className="bg-blue-500 text-sm p-2 pl-4 pr-4 mb-4 text-white font-semibold rounded-md hover:bg-blue-600">
+        <button
+          onClick={() => setTrigger(!trigger)}
+          className="bg-blue-500 text-sm p-2 pl-4 pr-4 mb-4 text-white font-semibold rounded-md hover:bg-blue-600"
+        >
           Connect
         </button>
       </section>
@@ -309,6 +313,7 @@ const AboutMe = () => {
             </div>
           </Dialog>
         </Transition>
+        <DialogBox triggerVal={trigger} trigger={setTrigger} />
       </section>
     </main>
   );

@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchUser, useAppDispatch } from "../hooks/hooks";
+import { fetchUser, fetchUserData, useAppDispatch } from "../hooks/hooks";
 interface UserInput {
   email: string;
   password: string;
@@ -25,7 +25,18 @@ const Login = () => {
       email: user.email,
       password: user.password,
     });
-    console.log(data);
+    if (data.user) {
+      localStorage.setItem("token", data.session.access_token);
+
+      const Data = await supabase
+        .from("users")
+        .update({ auth_token: data.session.access_token })
+        .eq("email", user.email)
+        .select("id, email");
+      if (Data.data)
+        fetchUserData(dispatch, Data.data[0].id, Data.data[0].email);
+    }
+
     fetchUser(dispatch, user.email);
     toast.success("Login Successfully");
     setTimeout(() => navigate("/home"), 3000);
