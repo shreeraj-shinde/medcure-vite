@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { supabase } from "../Supabase/SupabaseClient";
 import { getPreviousDiagnosis } from "../Store/Slices/UserDataSlice";
+import { ToastContainer, toast } from "react-toastify";
 
 interface RecentDiagnosis {
   symptoms: string[];
@@ -25,23 +26,23 @@ const DiagnosisResults = () => {
   const dispatch = useAppDispatch();
 
   const UpdatePreviousDiagonsis = async () => {
+    setRecentDiagnosis({
+      symptoms: selected_symptoms,
+      diseasePredicted: disease_predicted,
+      medicinePredicted: medicine_predicted,
+      description: description,
+      home_remedies: home_remedy,
+      precautions: precautions,
+      workouts: workouts,
+      diet: diet,
+    });
+
     const newData = [...diagnosisArr, recentDiagnosis] as object[];
+
     setDiagnosisArr(newData);
     dispatch(getPreviousDiagnosis(newData));
-
-    const { data, error } = await supabase
-      .from("user_data")
-      .update({ previous_diagnosis: JSON.stringify(diagnosisArr) })
-      .eq("id", userId)
-      .select();
-
-    if (data) {
-      alert("Saved");
-      console.log(data);
-    }
-    if (error) {
-      alert("There was some problem while saving");
-    }
+    localStorage.setItem("diagnosis", JSON.stringify(newData));
+    toast.success("Saved");
   };
   const {
     userId,
@@ -84,8 +85,8 @@ const DiagnosisResults = () => {
             Symptoms you have selected :{" "}
           </h3>
           <div className="flex flex-wrap">
-            {selected_symptoms.map((symptom) => (
-              <h2 className="text-md text-gray-700 font-semibold m-1">
+            {selected_symptoms.map((symptom, idx) => (
+              <h2 className="text-md text-gray-700 font-semibold m-1" key={idx}>
                 {symptom}
               </h2>
             ))}
@@ -150,6 +151,7 @@ const DiagnosisResults = () => {
         >
           Save
         </button>
+        <ToastContainer />
       </div>
     </section>
   );
