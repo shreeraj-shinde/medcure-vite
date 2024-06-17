@@ -110,7 +110,7 @@ export const fetchUser = async (dispatch: Function, email: string) => {
 
 export const fetchUserData = async (
   dispatch: Function,
-  id: number,
+  id?: any,
   email?: any
 ) => {
   const { data, error } = await supabase
@@ -147,6 +147,10 @@ export const updateUserData = async (
   editedName: string,
   editedAge: number,
   editedGender: string,
+  editedHeight: number,
+  editedWeight: number,
+  editedHip: number,
+  editedWaist: number,
   dispatch: Function
 ) => {
   const { data, error } = await supabase
@@ -164,6 +168,31 @@ export const updateUserData = async (
       data[0].phone,
       dispatch
     );
+    const { data, error } = await supabase
+      .from("user_data")
+      .update({
+        waist: editedWaist,
+        hip: editedHip,
+        height: editedHeight,
+        weight: editedWeight,
+      })
+      .eq("id", id)
+      .select();
+    if (data) {
+      loadUserData(
+        data[0].height,
+        data[0].weight,
+        data[0].hip,
+        data[0].waist,
+        data[0].steps,
+        data[0].calories_burnt,
+        data[0].oxygen,
+        data[0].stress,
+        data[0].medical_history,
+        data[0].previous_diagnosis,
+        dispatch
+      );
+    }
   }
   if (error) {
     console.log(error);

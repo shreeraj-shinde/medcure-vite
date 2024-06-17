@@ -16,6 +16,8 @@ interface userState {
   diet: string;
   workouts: string;
   token: string;
+  showDisclaimer: boolean;
+  url: string;
 }
 
 const initialState: userState = {
@@ -34,6 +36,8 @@ const initialState: userState = {
   workouts: "",
   diet: "",
   token: "",
+  showDisclaimer: false,
+  url: "https://plus.unsplash.com/premium_photo-1664476705703-bac3f3600b0a?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 };
 
 export const userSlice = createSlice({
@@ -85,6 +89,12 @@ export const userSlice = createSlice({
     getToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
     },
+    triggerDisclaimer: (state, action: PayloadAction<boolean>) => {
+      state.showDisclaimer = action.payload;
+    },
+    getUrl: (state, action: PayloadAction<string>) => {
+      state.url = action.payload;
+    },
   },
 });
 export const {
@@ -102,5 +112,7 @@ export const {
   getDiet,
   getPrecautions,
   getWorkouts,
+  triggerDisclaimer,
+  getUrl,
 } = userSlice.actions;
 export default userSlice.reducer;

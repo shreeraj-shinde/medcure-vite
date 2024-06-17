@@ -12,6 +12,13 @@ import {
 import { useState } from "react";
 import { updateUserData, useAppSelector, useAppDispatch } from "../hooks/hooks";
 import DialogBox from "../Components/DialogBox";
+import { getUrl } from "../Store/Slices/UserSlice";
+import {
+  getUserHieght,
+  getUserHip,
+  getUserWaist,
+  getUserWeight,
+} from "../Store/Slices/UserDataSlice";
 
 interface UserData {
   Edname: string;
@@ -25,7 +32,9 @@ interface UserData {
 
 const AboutMe = () => {
   const dispatch = useAppDispatch();
-  const { name, age, gender, userId } = useAppSelector((state) => state.user);
+  const { name, age, gender, userId, url } = useAppSelector(
+    (state) => state.user
+  );
   const { waist, hip, height, weight } = useAppSelector(
     (state) => state.userData
   );
@@ -41,6 +50,8 @@ const AboutMe = () => {
     EdHip: hip,
   });
 
+  const [file, setfile] = useState<File>();
+
   const bmi = Math.floor(weight / (height * height));
 
   const bfp = 1.2 * bmi + 0.23 * age - 16.2;
@@ -51,10 +62,11 @@ const AboutMe = () => {
       <section className="mb-2 mt-6 grid grid-cols-1 gap-1 lg:grid-cols-2">
         <div className="flex bg-white w-full p-6 shadow-lg rounded-lg">
           <img
-            src="https://plus.unsplash.com/premium_photo-1664476705703-bac3f3600b0a?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src={url}
             alt="USer Photo"
             className="w-1/2 object-center object-cover rounded-lg"
           />
+
           <div className="p-4">
             <h3 className="text-xs text-gray-500">Name</h3>
             <h2 className="text-lg text-gray-700 font-bold mb-2">{name}</h2>
@@ -73,7 +85,9 @@ const AboutMe = () => {
               {weight} kg
             </h2>
             <h3 className="text-xs text-gray-500">BMI</h3>
-            <h2 className="text-lg text-gray-700 font-bold mb-2">{bmi}</h2>
+            <h2 className="text-lg text-gray-700 font-bold mb-2">
+              {Math.floor(bmi)}
+            </h2>
           </div>
           <div className="p-4">
             <h3 className="text-xs text-gray-500">Hip</h3>
@@ -104,7 +118,7 @@ const AboutMe = () => {
 
       {/* 
       Smart Watch  */}
-      <section className="bg-white p-4 rounded-lg mt-2 mb-2 flex justify-between items-center">
+      {/* <section className="bg-white p-4 rounded-lg mt-2 mb-2 flex justify-between items-center">
         <img src={img} alt="smart watch" className="h-[120px]" />
         <div className="p-2 rounded-full border-2 border-red-500 bg-red-300 text-red-500 font-semibold text-sm">
           Not Connected
@@ -115,7 +129,7 @@ const AboutMe = () => {
         >
           Connect
         </button>
-      </section>
+      </section> */}
 
       <section className="bg-white p-2 rounded-lg shadow-lg mt-1">
         <h1 className="uppercase tracking-wider font-semibold text-center mt-2">
@@ -127,6 +141,9 @@ const AboutMe = () => {
               <label className="text-xs text-gray-500 mr-4">Photo</label>
               <br />
               <input
+                onChange={(e) => {
+                  dispatch(getUrl(URL.createObjectURL(e.target.files[0])));
+                }}
                 type="file"
                 id="avatar"
                 name="avatar"
@@ -294,12 +311,21 @@ const AboutMe = () => {
                         className="inline-flex items-center gap-2 rounded-md bg-blue-500 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-blue-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white"
                         onClick={() => {
                           setIsOpen(false);
+                          dispatch(getUserHieght(editData.Edheight));
+                          dispatch(getUserWeight(editData.Edweight));
+                          dispatch(getUserHip(editData.EdHip));
+                          dispatch(getUserWaist(editData.EdWaist));
 
                           updateUserData(
                             userId,
                             editData.Edname,
                             editData.Edage,
                             editData.Edgender,
+                            editData.Edheight,
+                            editData.Edweight,
+                            editData.EdHip,
+                            editData.EdWaist,
+
                             dispatch
                           );
                         }}

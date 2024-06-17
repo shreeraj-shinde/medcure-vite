@@ -29,19 +29,23 @@ const History = () => {
   return (
     <main>
       <Navbar title="My History" input={false} username={name} />
-      <section>
-        {previous_diagnosis.map((diag: any, idx: number) => (
-          <HistoryCard
-            diseaseName={diag.diseasePredicted}
-            medicineName={diag.medicinePredicted}
-            symptoms={diag.symptoms}
-            diet={diag.diet}
-            remember={diag.precautions}
-            homeRemedy={diag.home_remedies}
-            key={idx}
-          />
-        ))}
-      </section>
+      {previous_diagnosis ? (
+        <section>
+          {previous_diagnosis.map((diag: any, idx: number) => (
+            <HistoryCard
+              diseaseName={diag.diseasePredicted}
+              medicineName={diag.medicinePredicted}
+              symptoms={diag.symptoms}
+              diet={diag.diet}
+              remember={diag.precautions}
+              homeRemedy={diag.home_remedies}
+              key={idx}
+            />
+          ))}
+        </section>
+      ) : (
+        ""
+      )}
     </main>
   );
 };

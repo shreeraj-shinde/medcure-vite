@@ -128,13 +128,22 @@ const SignUp = () => {
               className="p-2 outline-0 border-b-2 border-gray-600 rounded-lg w-full lg:w-4/5"
             />
 
-            <button
-              onClick={(e) => CreateUser(e)}
-              disabled={2024 - userData.age >= 18 ? false : true}
-              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium w-full lg:w-1/3 mt-4"
-            >
-              Sign Up
-            </button>
+            <div>
+              <button
+                onClick={(e) => CreateUser(e)}
+                disabled={2024 - userData.age >= 18 ? false : true}
+                className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium w-full lg:w-1/3 mt-4"
+              >
+                Sign Up
+              </button>
+              <button
+                onClick={() => navigate("/login")}
+                disabled={2024 - userData.age >= 18 ? false : true}
+                className="ml-8 px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium w-full lg:w-1/3 mt-4"
+              >
+                Login
+              </button>
+            </div>
           </form>
         </div>
         <div className="w-1/2 h-full bg-[#d7eff3]">

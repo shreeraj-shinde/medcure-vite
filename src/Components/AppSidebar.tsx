@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import { IconType } from "react-icons";
@@ -104,6 +104,7 @@ const Li = ({ url, name, Icon, pathName }: LiProps) => {
 };
 
 const DivOne = ({ pathName }: { pathName: string }) => {
+  const navigate = useNavigate();
   return (
     <>
       <h2 className="font-base uppercase tracking-widest text-xs pl-8 mb-2">
@@ -140,6 +141,15 @@ const DivOne = ({ pathName }: { pathName: string }) => {
           Icon={GiMuscleUp}
           pathName={pathName}
         /> */}
+        <li className="list-none w-full rounded-sm mb-1 tracking-wide bg-blue-500 hover:bg-blue-600">
+          <button
+            onClick={() => navigate("/login")}
+            className="flex items-center content-center gap-2 pl-6 p-2 text-sm font-medium"
+          >
+            {" "}
+            Logout{" "}
+          </button>
+        </li>
       </ul>
     </>
   );
@@ -148,7 +158,7 @@ const DivOne = ({ pathName }: { pathName: string }) => {
 const DivTwo = ({ pathName }: { pathName: string }) => {
   return (
     <>
-      <h2 className="font-base uppercase tracking-widest text-xs pl-8 mb-2">
+      {/* <h2 className="font-base uppercase tracking-widest text-xs pl-8 mb-2">
         Health Charts
       </h2>
       <ul>
@@ -170,7 +180,7 @@ const DivTwo = ({ pathName }: { pathName: string }) => {
           Icon={RiLineChartFill}
           pathName={pathName}
         />
-      </ul>
+      </ul> */}
     </>
   );
 };

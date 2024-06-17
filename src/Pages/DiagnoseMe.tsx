@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
 import Layout from "../Layout/Layout";
 import {
@@ -18,21 +18,31 @@ import {
   getWorkouts,
   getPrecautions,
   getHomeRemedy,
+  triggerDisclaimer,
 } from "../Store/Slices/UserSlice";
 import { useNavigate } from "react-router-dom";
+import DisclaimerDialogBox from "../Components/DisclaimerDialogBox";
 
 const DiagnoseMe = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [disease, setDisease] = useState<string[]>([String(null)]);
 
-  const { name, age, gender } = useAppSelector((state) => state.user);
+  const { name, age, gender, showDisclaimer } = useAppSelector(
+    (state) => state.user
+  );
 
   const getSymptomsArr = (idx: number, symptom: string | undefined) => {
     const data = disease;
     data[idx] = symptom as string;
     setDisease(data);
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(triggerDisclaimer(true));
+    }, 2000);
+  }, []);
 
   const handleProceed = async (dispatch: Function) => {
     const res = await axios.post("http://127.0.0.1:5000/diagnose", {
@@ -70,7 +80,6 @@ const DiagnoseMe = () => {
           />
         </div>
       ))}
-
       <button
         className="p-2 bg-blue-500 hover:bg-blue-600 text-white text-semibold rounded-lg ml-2"
         onClick={() => {
@@ -99,6 +108,11 @@ const DiagnoseMe = () => {
       >
         Confirm
       </button>
+      <DisclaimerDialogBox
+        showDisclaimer={showDisclaimer}
+        dispatch={dispatch}
+      />
+      ;
     </section>
   );
 };

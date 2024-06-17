@@ -29,6 +29,7 @@ const Dashboard = () => {
     const token = localStorage.getItem("token") as string;
     fetchUserByAuthToken(token, dispatch);
     // fetchUserData(dispatch, userId, email);
+    fetchUserData(dispatch, 1, email);
 
     if (!token) {
       navigate("/login");
