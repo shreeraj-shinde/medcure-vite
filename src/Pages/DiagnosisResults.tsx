@@ -38,7 +38,7 @@ const DiagnosisResults = () => {
     });
 
     const newData = [...diagnosisArr, recentDiagnosis] as object[];
-
+    console.log(newData);
     setDiagnosisArr(newData);
     dispatch(getPreviousDiagnosis(newData));
     localStorage.setItem("diagnosis", JSON.stringify(newData));

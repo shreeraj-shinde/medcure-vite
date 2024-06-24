@@ -31,7 +31,7 @@ const History = () => {
       <Navbar title="My History" input={false} username={name} />
       {previous_diagnosis ? (
         <section>
-          {previous_diagnosis.map((diag: any, idx: number) => (
+          {previous_diagnosis.slice(1).map((diag: any, idx: number) => (
             <HistoryCard
               diseaseName={diag.diseasePredicted}
               medicineName={diag.medicinePredicted}

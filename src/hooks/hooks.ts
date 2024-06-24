@@ -74,7 +74,7 @@ export const loadUserData = (
   oxygen: number,
   stress: number,
   medical_history: string[],
-  previous_diagnosis: JSON,
+
   dispatch: Function
 ) => {
   dispatch(getUserHieght(height));
@@ -140,7 +140,7 @@ export const fetchUserData = async (
       data[0].oxygen,
       data[0].stress,
       data[0].medical_history,
-      data[0].previous_diagnosis,
+
       dispatch
     );
   }
@@ -210,7 +210,7 @@ export const updateUserData = async (
         data[0].oxygen,
         data[0].stress,
         data[0].medical_history,
-        data[0].previous_diagnosis,
+
         dispatch
       );
     }
@@ -318,7 +318,7 @@ export const createDataforUser = async (
         data[0].oxygen,
         data[0].stress,
         data[0].medical_history,
-        data[0].previous_diagnosis,
+
         dispatch
       );
     }

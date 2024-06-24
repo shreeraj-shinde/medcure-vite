@@ -25,7 +25,16 @@ const initialState: UserDataState = {
   oxygen: Number(null),
   stress: Number(null),
   calories_burnt: Number(null),
-  previous_diagnosis: [],
+  previous_diagnosis: [
+    {
+      diseaseName: "ABC",
+      medicineName: "D",
+      symptoms: ["A"],
+      homeRemedy: "C",
+      diet: "S",
+      remember: "Z",
+    },
+  ],
 };
 
 export const userDataSlice = createSlice({
