@@ -37,15 +37,16 @@ const Login = () => {
         fetchUserData(dispatch, Data.data[0].id, Data.data[0].email);
     }
 
-    fetchUser(dispatch, user.email);
-    toast.success("Loggged In Successfully");
-    setTimeout(() => navigate("/home"), 3000);
-
     if (error) {
       toast.error(error.message, {
         position: "top-right",
       });
+      return;
     }
+
+    fetchUser(dispatch, user.email);
+    toast.success("Loggged In Successfully");
+    setTimeout(() => navigate("/home"), 3000);
   };
 
   return (

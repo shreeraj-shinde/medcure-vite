@@ -25,7 +25,6 @@ const Dashboard = () => {
   );
 
   useEffect(() => {
-    console.log(userId, email);
     const token = localStorage.getItem("token") as string;
     fetchUserByAuthToken(token, dispatch);
     // fetchUserData(dispatch, userId, email);

@@ -18,6 +18,7 @@ interface userState {
   token: string;
   showDisclaimer: boolean;
   url: string;
+  uuid: string;
 }
 
 const initialState: userState = {
@@ -37,6 +38,7 @@ const initialState: userState = {
   diet: "",
   token: "",
   showDisclaimer: false,
+  uuid: "",
   url: "https://plus.unsplash.com/premium_photo-1664476705703-bac3f3600b0a?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 };
 
@@ -95,6 +97,9 @@ export const userSlice = createSlice({
     getUrl: (state, action: PayloadAction<string>) => {
       state.url = action.payload;
     },
+    getUuid: (state, action: PayloadAction<string>) => {
+      state.uuid = action.payload;
+    },
   },
 });
 export const {
@@ -114,5 +119,6 @@ export const {
   getWorkouts,
   triggerDisclaimer,
   getUrl,
+  getUuid,
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,6 +1,6 @@
 import Navbar from "../Components/Navbar";
 import Layout from "../Layout/Layout";
-import img from "../assets/smartwatch.png.png";
+
 import {
   Button,
   Dialog,
@@ -10,7 +10,12 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { useState } from "react";
-import { updateUserData, useAppSelector, useAppDispatch } from "../hooks/hooks";
+import {
+  updateUser,
+  useAppSelector,
+  useAppDispatch,
+  updateUserData,
+} from "../hooks/hooks";
 import DialogBox from "../Components/DialogBox";
 import { getUrl } from "../Store/Slices/UserSlice";
 import {
@@ -19,6 +24,7 @@ import {
   getUserWaist,
   getUserWeight,
 } from "../Store/Slices/UserDataSlice";
+import { supabase } from "../Supabase/SupabaseClient";
 
 interface UserData {
   Edname: string;
@@ -32,9 +38,10 @@ interface UserData {
 
 const AboutMe = () => {
   const dispatch = useAppDispatch();
-  const { name, age, gender, userId, url } = useAppSelector(
+  const { name, age, gender, userId, uuid } = useAppSelector(
     (state) => state.user
   );
+
   const { waist, hip, height, weight } = useAppSelector(
     (state) => state.userData
   );
@@ -50,7 +57,35 @@ const AboutMe = () => {
     EdHip: hip,
   });
 
-  const [file, setfile] = useState<File>();
+  const UploadImage = async (file: File) => {
+    const { data, error } = await supabase.storage
+      .from("medcure_profile_pics")
+      .upload(`/public/${uuid}/${uuid}`, file, { upsert: true });
+
+    if (error) {
+      alert("Error Uploading Images");
+      return;
+    }
+    if (data) {
+    }
+  };
+
+  const updateData = () => {
+    updateUser(
+      userId,
+      editData.Edname,
+      editData.Edage,
+      editData.Edgender,
+      dispatch
+    );
+    updateUserData(
+      editData.Edheight,
+      editData.Edweight,
+      editData.EdHip,
+      editData.EdWaist,
+      dispatch
+    );
+  };
 
   const bmi = Math.floor(weight / (height * height));
 
@@ -62,7 +97,7 @@ const AboutMe = () => {
       <section className="mb-2 mt-6 grid grid-cols-1 gap-1 lg:grid-cols-2">
         <div className="flex bg-white w-full p-6 shadow-lg rounded-lg">
           <img
-            src={url}
+            src={`https://itlrbxyjwkyikmysunvu.supabase.co/storage/v1/object/public/medcure_profile_pics/public/${uuid}/${uuid}`}
             alt="USer Photo"
             className="w-1/2 object-center object-cover rounded-lg"
           />
@@ -90,7 +125,7 @@ const AboutMe = () => {
             </h2>
           </div>
           <div className="p-4">
-            <h3 className="text-xs text-gray-500">Hip</h3>
+            <h3 className="text-xs text-gray-500">Neck</h3>
             <h2 className="text-lg text-gray-700 font-bold mb-2">{hip} cm</h2>
             <h3 className="text-xs text-gray-500">Waist</h3>
             <h2 className="text-lg text-gray-700 font-bold mb-2">{waist} cm</h2>
@@ -106,7 +141,7 @@ const AboutMe = () => {
               }}
             >
               <span className="relative" style={{ color: "rgb(59 130 246)" }}>
-                {bfp}%
+                {bfp.toFixed(1)}%
               </span>
             </div>
             <span className="uppercase font-semibold text-xs tracking-wider text-center">
@@ -142,7 +177,7 @@ const AboutMe = () => {
               <br />
               <input
                 onChange={(e) => {
-                  dispatch(getUrl(URL.createObjectURL(e.target.files[0])));
+                  UploadImage(e.target.files[0]);
                 }}
                 type="file"
                 id="avatar"
@@ -251,7 +286,7 @@ const AboutMe = () => {
               />
               <br />
 
-              <label className="text-xs text-gray-500 mr-4">Hip (in cm)</label>
+              <label className="text-xs text-gray-500 mr-4">Neck (in cm)</label>
               <br />
               <input
                 type="number"
@@ -315,19 +350,7 @@ const AboutMe = () => {
                           dispatch(getUserWeight(editData.Edweight));
                           dispatch(getUserHip(editData.EdHip));
                           dispatch(getUserWaist(editData.EdWaist));
-
-                          updateUserData(
-                            userId,
-                            editData.Edname,
-                            editData.Edage,
-                            editData.Edgender,
-                            editData.Edheight,
-                            editData.Edweight,
-                            editData.EdHip,
-                            editData.EdWaist,
-
-                            dispatch
-                          );
+                          updateData();
                         }}
                       >
                         Got it, Sure!

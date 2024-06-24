@@ -13,6 +13,7 @@ import {
   getDescription,
   getPredictedMedicine,
   getHomeRemedy,
+  getUuid,
 } from "../Store/Slices/UserSlice";
 
 import {
@@ -51,6 +52,7 @@ export const getUser = (
   gender: string,
   age: number,
   phone: number,
+  uuid: string,
   dispatch: Function
 ) => {
   dispatch(getUserId(userId));
@@ -59,6 +61,7 @@ export const getUser = (
   dispatch(getPhone(phone));
   dispatch(getEmail(email));
   dispatch(getGender(gender));
+  dispatch(getUuid(uuid));
 };
 
 export const loadUserData = (
@@ -100,6 +103,7 @@ export const fetchUser = async (dispatch: Function, email: string) => {
       data[0].gender,
       data[0].age,
       data[0].phone,
+      data[0].uuid,
       dispatch
     );
   }
@@ -142,42 +146,59 @@ export const fetchUserData = async (
   }
 };
 
-export const updateUserData = async (
+export const updateUser = async (
   id: number,
   editedName: string,
   editedAge: number,
   editedGender: string,
-  editedHeight: number,
-  editedWeight: number,
-  editedHip: number,
-  editedWaist: number,
   dispatch: Function
 ) => {
-  const { data, error } = await supabase
-    .from("users")
-    .update({ name: editedName, age: editedAge, gender: editedGender })
-    .eq("id", id)
-    .select();
-  if (data) {
-    getUser(
-      data[0].id,
-      data[0].name,
-      data[0].email,
-      data[0].gender,
-      data[0].age,
-      data[0].phone,
-      dispatch
-    );
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .update({ name: editedName, age: editedAge, gender: editedGender })
+      .eq("id", id)
+      .select();
+    if (data) {
+      getUser(
+        data[0].id,
+        data[0].name,
+        data[0].email,
+        data[0].gender,
+        data[0].age,
+        data[0].phone,
+        data[0].uuid,
+        dispatch
+      );
+    }
+    if (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateUserData = async (
+  EDheight: number,
+  EDweight: number,
+  EDhip: number,
+  EDwaist: number,
+
+  dispatch: Function
+) => {
+  try {
     const { data, error } = await supabase
       .from("user_data")
       .update({
-        waist: editedWaist,
-        hip: editedHip,
-        height: editedHeight,
-        weight: editedWeight,
+        height: EDheight,
+        weight: EDweight,
+        hip: EDhip,
+        waist: EDwaist,
       })
-      .eq("id", id)
+      .eq("id", 1)
       .select();
+
     if (data) {
       loadUserData(
         data[0].height,
@@ -193,8 +214,10 @@ export const updateUserData = async (
         dispatch
       );
     }
-  }
-  if (error) {
+    if (error) {
+      console.log(error);
+    }
+  } catch (error) {
     console.log(error);
   }
 };
@@ -323,6 +346,7 @@ export const fetchUserByAuthToken = async (
       data[0].gender,
       data[0].age,
       data[0].phone,
+      data[0].uuid,
       dispatch
     );
   }
